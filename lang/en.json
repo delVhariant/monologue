@@ -1,0 +1,10 @@
+{
+    "I18N.MAINTAINERS": ["delVhar"],
+    "monologue.errors.noToken" : "No token selected. Please select a token.",
+    "monologue.errors.multipleTokens" : "Multiple tokens selected. Please select a single token.",
+    "monologue.select": "Select a Journal to monologue",
+    "monologue.messageDelay.name": "Message Delay",
+    "monologue.messageDelay.hint": "The number of seconds between each message in a monologue"
+
+
+}

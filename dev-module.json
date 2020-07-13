@@ -1,0 +1,20 @@
+{
+  "name": "monologue",
+  "title": "Monologue",
+  "description": "Allows Journal Entries to be written as scripts, that tokens will perform.",
+  "author": "delVhar",
+  "version": "0.0.1",
+  "minimumCoreVersion": "0.6.5",
+  "compatibleCoreVersion": "0.6.5",
+  "scripts": ["scripts/monologue.js"],
+  "languages": [
+  {
+    "lang": "en",
+    "name": "English",
+    "path": "lang/en.json"
+      }
+  ],
+  "url": "https://github.com/delVhariant/monologue",
+  "manifest": "https://raw.githubusercontent.com/delVhariant/monologue/dev/dev-module.json",
+  "download": "https://github.com/delVhariant/monologue/zipball/dev"
+}
