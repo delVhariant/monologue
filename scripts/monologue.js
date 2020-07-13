@@ -8,7 +8,7 @@ class Monologue
   displaySelect()
     {
         var j_entries = JournalDirectory.collection.entries.map(x => {return {'name': x.data.name, 'id': x.data._id}})
-        var selections = renderTemplate("../templates/journal_select.html", j_entries)
+        var selections = renderTemplate("modules/monologue/templates/journal_select.html", j_entries)
         let d = new Dialog({
             title: "Monologue",
             content: selections,
@@ -88,7 +88,7 @@ Hooks.on('getSceneControlButtons', controls => {
           icon: "fas fa-comment",
           visible: true,
           onClick: () => {
-            
+
             if(!monologue)
               var monologue = new Monologue();
 
@@ -108,7 +108,8 @@ Hooks.on('getSceneControlButtons', controls => {
       }
     });
 
-Hooks.once('init', () => {  
+Hooks.once('init', () => {
+  loadTemplates(["modules/monologue/templates/journal_select.html"]); // Load the popup template
   game.settings.register("monologue", "messageDelay", {
 		name: game.i18n.localize("monologue.messageDelay.name"),
 		hint: game.i18n.localize("monologue.messageDelay.hint"),
