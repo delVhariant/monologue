@@ -1,6 +1,11 @@
 class Monologue
 {
-    displaySelect()
+  constructor()
+  {
+    this.messageDialog = null;  
+  }  
+  
+  displaySelect()
     {
         var j_entries = JournalDirectory.collection.entries.map(x => {return {'name': x.data.name, 'id': x.data._id}})
         var selections = render_template("../templates/journal_select.html", j_entries)
@@ -51,7 +56,7 @@ class Monologue
       for(var i = 0; i < lines.length; i++)
       {
         if(lines[i].outerHTML !== "") // Don't print empty lines
-          this.sendMessage(lines[i].outerHTML);
+        this.sendMessage(lines[i].outerHTML);
         await this.timer(game.settings.get("monologue", "messageDelay") * 1000);
       }
     }
@@ -76,21 +81,22 @@ Hooks.on('getSceneControlButtons', controls => {
     if(control == undefined)
         return;
 
-    if (tokenButton) {
-        tokenButton.tools.push({
+    if (control) {
+      control.tools.push({
           name: "monologue",
           title: "Monologue",
           icon: "fas fa-comment",
           visible: true,
           onClick: () => {
+
             if (canvas.tokens.controlled.length === 1) {
-                this.displaySelect();
+              monologue.displaySelect();
             } else if (canvas.tokens.controlled.length > 1) {
-              this.displayMessage(
+              monologue.displayMessage(
                 game.i18n.localize("monologue.errors.multipleTokens")
               );
             } else {
-              this.displayMessage(
+              monologue.displayMessage(
                 game.i18n.localize("monologue.errors.noToken")
               );
             }
@@ -100,6 +106,7 @@ Hooks.on('getSceneControlButtons', controls => {
     });
 
 Hooks.once('init', () => {
+  var monologue = new Monologue();
   game.settings.register("monologue", "messageDelay", {
 		name: game.i18n.localize("monologue.messageDelay.name"),
 		hint: game.i18n.localize("monologue.messageDelay.hint"),
