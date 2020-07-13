@@ -48,11 +48,12 @@ class Monologue
     {
       var monologue = JournalDirectory.collection.entries.find(x => x.data._id == journal).data.content;
       var lines = new DOMParser().parseFromString(monologue, "text/html").querySelector("body").children;
-      lines.forEach(x => {
-        if(x.outerHTML !== "") // Don't print empty lines
-          this.sendMessage(x.outerHTML);
-        await this.timer(game.settings.get("monologue", "messageDelay") * 1000)
-      });
+      for(var i = 0; i < lines.length; i++)
+      {
+        if(lines[i].outerHTML !== "") // Don't print empty lines
+          this.sendMessage(lines[i].outerHTML);
+        await this.timer(game.settings.get("monologue", "messageDelay") * 1000);
+      }
     }
 
     sendMessage(message)
@@ -105,7 +106,7 @@ Hooks.once('init', () => {
 		scope: "world",
 		config: true,
 		default: .8,
-        type: Number,
-        range: {min: 0.0, max: 5.0, step: 0.2}
-    });
+    type: Number,
+    range: {min: 0.0, max: 5.0, step: 0.2}
+  });
 })
