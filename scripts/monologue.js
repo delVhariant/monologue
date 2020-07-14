@@ -56,7 +56,7 @@ class Monologue
       var lines = new DOMParser().parseFromString(monologue, "text/html").querySelector("body").children;
       for(var i = 0; i < lines.length; i++)
       {
-        if(lines[i].innerText.trim().length == 0) // Don't print empty lines
+        if(lines[i].innerText.trim().length != 0) // Don't print empty lines
           this.sendMessage(lines[i].textContent);
         await this.timer(game.settings.get("monologue", "messageDelay") * 1000);
       }
