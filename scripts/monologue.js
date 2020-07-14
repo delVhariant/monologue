@@ -56,18 +56,18 @@ class Monologue
       var lines = new DOMParser().parseFromString(monologue, "text/html").querySelector("body").children;
       for(var i = 0; i < lines.length; i++)
       {
-        if(lines[i].outerText !== "") // Don't print empty lines
-        this.sendMessage(lines[i].outerHTML);
+        if(lines[i].innerText.trim().length == 0) // Don't print empty lines
+          this.sendMessage(lines[i].textContent);
         await this.timer(game.settings.get("monologue", "messageDelay") * 1000);
       }
     }
 
     sendMessage(message)
     {
-      ChatMessage.create({
-        speaker: ChatMessage.getSpeaker(),
-        content: message
-        }, { chatBubble: false });
+        ui.chat.processMessage(message).catch(err => {
+          ui.notifications.error("There was an error in your chat message syntax.");
+          console.error(err);
+        });  
     }
 
     // Returns a Promise that resolves after "ms" Milliseconds
