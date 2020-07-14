@@ -3,7 +3,7 @@
   "title": "Monologue",
   "description": "Allows Journal Entries to be written as scripts, that tokens will perform.",
   "author": "delVhar",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "minimumCoreVersion": "0.6.5",
   "compatibleCoreVersion": "0.6.5",
   "scripts": ["scripts/monologue.js"],

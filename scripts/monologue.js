@@ -1,10 +1,15 @@
 class Monologue
 {
-    displaySelect()
+  constructor()
+  {
+    this.messageDialog = null;  
+  }  
+  
+  displaySelect()
     {
         var j_entries = JournalDirectory.collection.entries.map(x => {return {'name': x.data.name, 'id': x.data._id}})
-        var selections = render_template("../templates/journal_select.html", j_entries)
-        let d = new Dialog({
+        renderTemplate("modules/monologue/templates/journal_select.html", j_entries).then((selections) => {
+          let d = new Dialog({
             title: "Monologue",
             content: selections,
             buttons: {
@@ -18,6 +23,7 @@ class Monologue
             close: () => {console.log("This always is logged no matter which option is chosen")}
            });
            d.render(true);
+        });    
     }
 
     displayMessage(message) {
@@ -50,8 +56,8 @@ class Monologue
       var lines = new DOMParser().parseFromString(monologue, "text/html").querySelector("body").children;
       for(var i = 0; i < lines.length; i++)
       {
-        if(lines[i].outerHTML !== "") // Don't print empty lines
-          this.sendMessage(lines[i].outerHTML);
+        if(lines[i].outerText !== "") // Don't print empty lines
+        this.sendMessage(lines[i].outerHTML);
         await this.timer(game.settings.get("monologue", "messageDelay") * 1000);
       }
     }
@@ -83,14 +89,18 @@ Hooks.on('getSceneControlButtons', controls => {
           icon: "fas fa-comment",
           visible: true,
           onClick: () => {
+
+            if(!monologue)
+              var monologue = new Monologue();
+
             if (canvas.tokens.controlled.length === 1) {
-              Monologue.displaySelect();
+              monologue.displaySelect();
             } else if (canvas.tokens.controlled.length > 1) {
-              Monologue.displayMessage(
+              monologue.displayMessage(
                 game.i18n.localize("monologue.errors.multipleTokens")
               );
             } else {
-              Monologue.displayMessage(
+              monologue.displayMessage(
                 game.i18n.localize("monologue.errors.noToken")
               );
             }
@@ -100,6 +110,7 @@ Hooks.on('getSceneControlButtons', controls => {
     });
 
 Hooks.once('init', () => {
+  loadTemplates(["modules/monologue/templates/journal_select.html"]); // Load the popup template
   game.settings.register("monologue", "messageDelay", {
 		name: game.i18n.localize("monologue.messageDelay.name"),
 		hint: game.i18n.localize("monologue.messageDelay.hint"),
