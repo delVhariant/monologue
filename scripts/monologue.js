@@ -8,8 +8,8 @@ class Monologue
   displaySelect()
     {
         var j_entries = JournalDirectory.collection.entries.map(x => {return {'name': x.data.name, 'id': x.data._id}})
-        var selections = renderTemplate("modules/monologue/templates/journal_select.html", j_entries)
-        let d = new Dialog({
+        renderTemplate("modules/monologue/templates/journal_select.html", j_entries).then((selections) => {
+          let d = new Dialog({
             title: "Monologue",
             content: selections,
             buttons: {
@@ -23,6 +23,7 @@ class Monologue
             close: () => {console.log("This always is logged no matter which option is chosen")}
            });
            d.render(true);
+        });    
     }
 
     displayMessage(message) {
